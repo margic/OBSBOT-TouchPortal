@@ -1,0 +1,55 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'application'
+    id 'com.christophecvb.touchportal.plugin-packager' version '8.3.0'
+    id 'com.github.gmazzo.buildconfig' version '3.0.0'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+def mainClassSimpleName = 'Plugin'
+def mainClassPackage = 'com.margic.obsbot'
+def versionName = '0.0.1'
+group mainClassPackage
+version versionName
+tpPlugin.mainClassSimpleName = mainClassSimpleName
+
+
+dependencies {
+    implementation 'com.christophecvb.touchportal:plugin-sdk:8.3.0'
+    annotationProcessor 'com.christophecvb.touchportal:plugin-sdk-annotations-processor:8.3.0'
+
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.margic.obsbot.App'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+
+buildConfig {
+    packageName = project.group
+    buildConfigField 'String', 'NAME', "\"${project.name}\""
+    buildConfigField 'String', 'VERSION_NAME', "\"${versionName}\""
+    buildConfigField 'long', 'VERSION_CODE', 1 + ''
+}
