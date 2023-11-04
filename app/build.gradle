@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 }
 
-def mainClassSimpleName = 'Plugin'
+def mainClassSimpleName = 'OBSBOTPlugin'
 def mainClassPackage = 'com.margic.obsbot'
 def versionName = '0.0.1'
 group mainClassPackage
@@ -20,6 +20,8 @@ tpPlugin.mainClassSimpleName = mainClassSimpleName
 
 dependencies {
     implementation 'com.christophecvb.touchportal:plugin-sdk:8.3.0'
+    implementation 'com.illposed.osc:javaosc-core:0.8'
+
     annotationProcessor 'com.christophecvb.touchportal:plugin-sdk-annotations-processor:8.3.0'
 
     // Use JUnit Jupiter for testing.
@@ -39,7 +41,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.margic.obsbot.App'
+    mainClass = 'com.margic.obsbot.OBSBOTPlugin'
 }
 
 tasks.named('test') {
