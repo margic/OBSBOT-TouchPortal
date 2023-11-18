@@ -2,29 +2,28 @@ package com.margic.obsbot;
 
 import com.christophecvb.touchportal.annotations.Category;
 import com.christophecvb.touchportal.annotations.Plugin;
+import com.christophecvb.touchportal.helpers.PluginHelper;
 import com.christophecvb.touchportal.model.TPBroadcastMessage;
 import com.christophecvb.touchportal.model.TPInfoMessage;
 import com.christophecvb.touchportal.model.TPListChangeMessage;
 import com.christophecvb.touchportal.model.TPNotificationOptionClickedMessage;
 import com.christophecvb.touchportal.model.TPSettingsMessage;
 import com.google.gson.JsonObject;
+import com.christophecvb.touchportal.TouchPortalPlugin;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.christophecvb.touchportal.TouchPortalPlugin;
-
-
-@Plugin(version = BuildConfig.VERSION_CODE, colorDark = "#203060", colorLight = "#4070F0", name = "OBSBOT Touch Portal Plugin")
+@Plugin(version = BuildConfig.VERSION_CODE, colorDark = "#203060", colorLight = "#4070F0", name = "OBSBOT Plugin")
 public class OBSBOTPlugin extends TouchPortalPlugin implements TouchPortalPlugin.TouchPortalPluginListener {
-
-    private final static Logger LOGGER = Logger.getLogger(TouchPortalPlugin.class.getName());
-
+    
+    private static final Logger LOGGER = Logger.getLogger(TouchPortalPlugin.class.getName());
     /**
      * Constructor calling super
      */
     public OBSBOTPlugin() {
         super(true);
+        OBSBOTPlugin.LOGGER.log(Level.INFO, "Constructing OBSBOT plugin");
     }
 
     private enum Categories {
@@ -37,8 +36,16 @@ public class OBSBOTPlugin extends TouchPortalPlugin implements TouchPortalPlugin
         // SecondCategory
     }    
 
-    public static void main(String[] args) {
-        LOGGER.log(Level.INFO, "plugin start");
+    public static void main(String... args) {
+        OBSBOTPlugin.LOGGER.log(Level.INFO, "STARTED MY PLUGIN");
+        if (args != null && args.length == 1) {
+            if (PluginHelper.COMMAND_START.equals(args[0])) {
+                // Initialize your Plugin
+                OBSBOTPlugin plugin = new OBSBOTPlugin();
+                // Initiate the connection with the Touch Portal Plugin System (will trigger an onInfo message with a confirmation from TouchPortal and the initial settings)
+                boolean connectedPairedAndListening = plugin.connectThenPairAndListen(plugin);
+            }
+        }
     }
 
 
@@ -46,7 +53,6 @@ public class OBSBOTPlugin extends TouchPortalPlugin implements TouchPortalPlugin
     @Override
     public void onDisconnected(Exception exception) {
         // TODO Auto-generated method stub
-        LOGGER.log(Level.INFO, "onDisconnect");
         throw new UnsupportedOperationException("Unimplemented method 'onDisconnected'");
     }
 
@@ -55,7 +61,6 @@ public class OBSBOTPlugin extends TouchPortalPlugin implements TouchPortalPlugin
     @Override
     public void onReceived(JsonObject jsonMessage) {
         // TODO Auto-generated method stub
-        LOGGER.log(Level.INFO, "onReceived");
         throw new UnsupportedOperationException("Unimplemented method 'onReceived'");
     }
 
@@ -63,7 +68,7 @@ public class OBSBOTPlugin extends TouchPortalPlugin implements TouchPortalPlugin
 
     @Override
     public void onInfo(TPInfoMessage tpInfoMessage) {
-        // TODO Auto-generated method stub
+        OBSBOTPlugin.LOGGER.log(Level.INFO, "onInfo call received");
         throw new UnsupportedOperationException("Unimplemented method 'onInfo'");
     }
 
